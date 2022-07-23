@@ -1,0 +1,53 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1
+      author: eray.felek
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  constraints:
+                    constraints:
+                      nullable: false
+                      primaryKey: true
+              - column:
+                  name: name
+                  type: varchar(50)
+              - column:
+                  name: type
+                  type: varchar(50)
+            tableName: galaxies
+        - createTable:
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  constraints:
+                    constraints:
+                      nullable: false
+                      primaryKey: true
+              - column:
+                  name: name
+                  type: varchar(50)
+              - column:
+                  name: galaxy_id
+                  type: BIGINT
+            tableName: solar_systems
+        - createTable:
+            columns:
+              - column:
+                  constraints:
+                    constraints:
+                      nullable: false
+                      primaryKey: true
+                  name: id
+                  type: BIGINT
+              - column:
+                  name: name
+                  type: varchar(50)
+              - column:
+                  name: solar_system_id
+                  type: BIGINT
+            tableName: planets
