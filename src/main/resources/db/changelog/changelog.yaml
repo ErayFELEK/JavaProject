@@ -99,3 +99,92 @@ databaseChangeLog:
             referencedTableName: galaxies
             referencedTableSchemaName: public
             validate: true
+  - changeSet:
+      id: add-metadata-to-tables
+      author: eray.felek
+      changes:
+        - addColumn:
+            tableName: planets
+            columns:
+              - column:
+                  name: created_at
+                  type: timestamp
+        - addColumn:
+            tableName: planets
+            columns:
+              - column:
+                  name: created_by
+                  type: varchar(50)
+        - addColumn:
+            tableName: planets
+            columns:
+              - column:
+                  name: updated_at
+                  type: timestamp
+        - addColumn:
+            tableName: planets
+            columns:
+              - column:
+                  name: updated_by
+                  type: varchar(50)
+        - addColumn:
+            tableName: solar_systems
+            columns:
+              - column:
+                  name: created_at
+                  type: timestamp
+        - addColumn:
+            tableName: solar_systems
+            columns:
+              - column:
+                  name: created_by
+                  type: varchar(50)
+        - addColumn:
+            tableName: solar_systems
+            columns:
+              - column:
+                  name: updated_at
+                  type: timestamp
+        - addColumn:
+            tableName: solar_systems
+            columns:
+              - column:
+                  name: updated_by
+                  type: varchar(50)
+        - addColumn:
+            tableName: galaxies
+            columns:
+              - column:
+                  name: created_at
+                  type: timestamp
+        - addColumn:
+            tableName: galaxies
+            columns:
+              - column:
+                  name: created_by
+                  type: varchar(50)
+        - addColumn:
+            tableName: galaxies
+            columns:
+              - column:
+                  name: updated_at
+                  type: timestamp
+        - addColumn:
+            tableName: galaxies
+            columns:
+              - column:
+                  name: updated_by
+                  type: varchar(50)
+  - changeSet:
+      id: add-auto-increment
+      author: eray.felek
+      changes:
+        - addAutoIncrement:
+            columnDataType: bigint
+            columnName: id
+            defaultOnNull: false
+            generationType: ALWAYS
+            incrementBy: 1
+            schemaName: public
+            startWith: 1
+            tableName: planets
