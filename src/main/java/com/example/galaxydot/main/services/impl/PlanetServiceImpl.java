@@ -1,5 +1,6 @@
 package com.example.galaxydot.main.services.impl;
 
+import com.example.galaxydot.main.exception.ErrorException;
 import com.example.galaxydot.main.mappers.PlanetMapper;
 import com.example.galaxydot.main.models.Planet;
 import com.example.galaxydot.main.persistence.repositories.PlanetRepository;
@@ -43,13 +44,13 @@ public class PlanetServiceImpl implements PlanetService {
     @Override
     public boolean updatePlanet(Planet planet) {
         if(Objects.isNull(planet.getId())) {
-            return false;
+            throw new ErrorException("Id is null");
         }
 
         var optionalEntity = planetRepository.findById(planet.getId());
 
         if(optionalEntity.isEmpty()) {
-            return false;
+            throw new ErrorException("Entity does not exist");
         }
 
         var entity = optionalEntity.get();
