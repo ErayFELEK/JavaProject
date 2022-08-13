@@ -188,3 +188,28 @@ databaseChangeLog:
             schemaName: public
             startWith: 1
             tableName: planets
+  - changeSet:
+      id: add-deleted-to-tables
+      author: eray.felek
+      changes:
+        - addColumn:
+            tableName: planets
+            columns:
+              - column:
+                  name: deleted
+                  type: boolean
+                  defaultValueBoolean: false
+        - addColumn:
+            tableName: solar_systems
+            columns:
+              - column:
+                  name: deleted
+                  type: boolean
+                  defaultValueBoolean: false
+        - addColumn:
+            tableName: galaxies
+            columns:
+              - column:
+                  name: deleted
+                  type: boolean
+                  defaultValueBoolean: false

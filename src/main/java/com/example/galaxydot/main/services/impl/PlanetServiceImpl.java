@@ -29,20 +29,18 @@ public class PlanetServiceImpl implements PlanetService {
     }
 
     @Override
-    public boolean insertPlanet(PlanetRequest planetRequest) {
+    public Planet insertPlanet(PlanetRequest planetRequest) {
         var planet = Planet.builder()
                 .name(planetRequest.getName())
                 .build();
 
         var entity = mapper.convertToEntity(planet);
 
-        planetRepository.save(entity);
-
-        return true;
+        return mapper.convertToModel(planetRepository.save(entity));
     }
 
     @Override
-    public boolean updatePlanet(Planet planet) {
+    public Planet updatePlanet(Planet planet) {
         if(Objects.isNull(planet.getId())) {
             throw new ErrorException("Id is null");
         }
@@ -55,15 +53,14 @@ public class PlanetServiceImpl implements PlanetService {
 
         var entity = optionalEntity.get();
         entity.setName(planet.getName());
-        planetRepository.save(entity);
 
-        return true;
+        return mapper.convertToModel(planetRepository.save(entity));
     }
 
     @Override
     public boolean deletePlanet(Long id) {
         planetRepository.deleteById(id);
 
-        return false;
+        return true;
     }
 }

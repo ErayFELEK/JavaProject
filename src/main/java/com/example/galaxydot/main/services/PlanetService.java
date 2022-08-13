@@ -9,9 +9,9 @@ public interface PlanetService {
 
     public List<Planet> getPlanets();
 
-    public boolean insertPlanet(PlanetRequest planet);
+    public Planet insertPlanet(PlanetRequest planet);
 
-    public boolean updatePlanet(Planet planetRequest);
+    public Planet updatePlanet(Planet planetRequest);
 
     public boolean deletePlanet(Long id);
 

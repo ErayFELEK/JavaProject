@@ -1,32 +1,35 @@
 package com.example.galaxydot.main.persistence.entities;
 
-import javax.persistence.*;
+import com.example.galaxydot.main.exception.ErrorException;
+import lombok.Getter;
+import lombok.Setter;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 
-import java.time.Instant;
+import javax.persistence.*;
 import java.util.Set;
 
 import static com.example.galaxydot.main.persistence.constants.Tables.SOLAR_SYSTEM_TABLE;
 
 @Entity
 @Table(name = SOLAR_SYSTEM_TABLE)
-public class SolarSystemEntity {
-
-    @Id
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
-    private Long id;
+@Getter
+@Setter
+@SQLDelete(sql = "UPDATE solar_systems SET deleted = true WHERE id=?")
+@Where(clause = "deleted=false")
+public class SolarSystemEntity extends AbstractEntity {
 
     @Column
     private String name;
 
-    @OneToMany(mappedBy="solarSystem", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "solarSystem", fetch = FetchType.LAZY)
     private Set<PlanetEntity> planets;
 
-    private Instant createdAt;
-
-    private String createdBy;
-
-    private Instant updatedAt;
-
-    private String updatedBy;
+    @PreRemove
+    public void checkRelation() {
+        if(!planets.isEmpty()) {
+            throw new ErrorException(" Unable to delete. Given solar system has planet relations");
+        }
+    }
 
 }
