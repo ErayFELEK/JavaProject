@@ -15,12 +15,13 @@ import static com.example.galaxydot.main.persistence.constants.Tables.PLANET_TAB
 @Setter
 @SQLDelete(sql = "UPDATE planets SET deleted = true WHERE id=?")
 @Where(clause = "deleted=false")
-public class PlanetEntity extends  AbstractEntity{
+public class PlanetEntity extends AbstractEntity {
 
     @Column
     private String name;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "solar_system_id")
     private SolarSystemEntity solarSystem;
 
 }

@@ -3,6 +3,8 @@ package com.example.galaxydot.main.services.impl;
 import com.example.galaxydot.main.exception.ErrorException;
 import com.example.galaxydot.main.mappers.SolarSystemMapper;
 import com.example.galaxydot.main.models.SolarSystem;
+import com.example.galaxydot.main.persistence.entities.GalaxyEntity;
+import com.example.galaxydot.main.persistence.entities.SolarSystemEntity;
 import com.example.galaxydot.main.persistence.repositories.SolarSystemRepository;
 import com.example.galaxydot.main.requests.SolarSystemRequest;
 import com.example.galaxydot.main.services.SolarSystemService;
@@ -23,7 +25,7 @@ public class SolarSystemImpl implements SolarSystemService {
 
     @Override
     public List<SolarSystem> getSolarSystems() {
-        var solarSystems = solarSystemRepository.findAll();
+        var solarSystems = solarSystemRepository.retrieveWithRelations();
 
         return mapper.convertToModelList(solarSystems);
     }
@@ -32,6 +34,7 @@ public class SolarSystemImpl implements SolarSystemService {
     public SolarSystem insertSolarSystem(SolarSystemRequest solarSystemRequest) {
         var solarSystem = SolarSystem.builder()
                 .name(solarSystemRequest.getName())
+                .galaxy(solarSystemRequest.getGalaxy())
                 .build();
 
         var entity = mapper.convertToEntity(solarSystem);
@@ -45,7 +48,6 @@ public class SolarSystemImpl implements SolarSystemService {
             throw new ErrorException("Id is null");
         }
 
-
         var optionalEntity = solarSystemRepository.findById(solarSystem.getId());
 
         if (optionalEntity.isEmpty()) {
@@ -53,10 +55,19 @@ public class SolarSystemImpl implements SolarSystemService {
         }
 
         var entity = optionalEntity.get();
-        entity.setName(solarSystem.getName());
 
+        patchEntity(solarSystem, entity);
 
         return mapper.convertToModel(solarSystemRepository.save(entity));
+    }
+
+    private void patchEntity(SolarSystem solarSystem, SolarSystemEntity entity) {
+        GalaxyEntity galaxy = new GalaxyEntity();
+
+        galaxy.setId(solarSystem.getGalaxy().getId());
+
+        entity.setName(solarSystem.getName());
+        entity.setGalaxy(galaxy);
     }
 
     @Override

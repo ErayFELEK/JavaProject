@@ -1,24 +1,21 @@
 package com.example.galaxydot.main.models;
 
+import com.example.galaxydot.main.enums.GalaxyType;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
-import java.util.List;
-
 @Getter
 @Setter
 @ToString
 @Builder
-public class SolarSystem {
+public class Galaxy {
 
     private Long id;
 
     private String name;
 
-    private List<BasicPlanet> planets;
-
-    private Galaxy galaxy;
+    private GalaxyType type;
 
 }

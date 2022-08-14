@@ -6,4 +6,6 @@ public class Tables {
 
     public static final String SOLAR_SYSTEM_TABLE = "solar_systems";
 
+    public static final String GALAXY_TABLE = "galaxies";
+
 }

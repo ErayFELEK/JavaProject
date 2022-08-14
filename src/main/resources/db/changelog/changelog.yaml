@@ -213,3 +213,25 @@ databaseChangeLog:
                   name: deleted
                   type: boolean
                   defaultValueBoolean: false
+  - changeSet:
+      id: add-auto-increment-to-galaxy-and-solar
+      author: eray.felek
+      changes:
+        - addAutoIncrement:
+            columnDataType: bigint
+            columnName: id
+            defaultOnNull: false
+            generationType: ALWAYS
+            incrementBy: 1
+            schemaName: public
+            startWith: 1
+            tableName: galaxies
+        - addAutoIncrement:
+            columnDataType: bigint
+            columnName: id
+            defaultOnNull: false
+            generationType: ALWAYS
+            incrementBy: 1
+            schemaName: public
+            startWith: 1
+            tableName: solar_systems

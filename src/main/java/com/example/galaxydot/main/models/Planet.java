@@ -15,4 +15,6 @@ public class Planet {
 
     private String name;
 
+    private BasicSolarSystem solarSystem;
+
 }

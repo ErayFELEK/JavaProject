@@ -22,12 +22,16 @@ public class SolarSystemEntity extends AbstractEntity {
     @Column
     private String name;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "galaxy_id")
+    private GalaxyEntity galaxy;
+
     @OneToMany(mappedBy = "solarSystem", fetch = FetchType.LAZY)
     private Set<PlanetEntity> planets;
 
     @PreRemove
     public void checkRelation() {
-        if(!planets.isEmpty()) {
+        if (!planets.isEmpty()) {
             throw new ErrorException(" Unable to delete. Given solar system has planet relations");
         }
     }

@@ -3,6 +3,8 @@ package com.example.galaxydot.main.services.impl;
 import com.example.galaxydot.main.exception.ErrorException;
 import com.example.galaxydot.main.mappers.PlanetMapper;
 import com.example.galaxydot.main.models.Planet;
+import com.example.galaxydot.main.persistence.entities.PlanetEntity;
+import com.example.galaxydot.main.persistence.entities.SolarSystemEntity;
 import com.example.galaxydot.main.persistence.repositories.PlanetRepository;
 import com.example.galaxydot.main.requests.PlanetRequest;
 import com.example.galaxydot.main.services.PlanetService;
@@ -14,7 +16,6 @@ import java.util.Objects;
 
 @Service
 public class PlanetServiceImpl implements PlanetService {
-
     @Autowired
     private PlanetRepository planetRepository;
 
@@ -32,6 +33,7 @@ public class PlanetServiceImpl implements PlanetService {
     public Planet insertPlanet(PlanetRequest planetRequest) {
         var planet = Planet.builder()
                 .name(planetRequest.getName())
+                .solarSystem(planetRequest.getSolarSystem())
                 .build();
 
         var entity = mapper.convertToEntity(planet);
@@ -41,18 +43,19 @@ public class PlanetServiceImpl implements PlanetService {
 
     @Override
     public Planet updatePlanet(Planet planet) {
-        if(Objects.isNull(planet.getId())) {
+        if (Objects.isNull(planet.getId())) {
             throw new ErrorException("Id is null");
         }
 
         var optionalEntity = planetRepository.findById(planet.getId());
 
-        if(optionalEntity.isEmpty()) {
+        if (optionalEntity.isEmpty()) {
             throw new ErrorException("Entity does not exist");
         }
 
         var entity = optionalEntity.get();
-        entity.setName(planet.getName());
+
+        patchEntity(planet, entity);
 
         return mapper.convertToModel(planetRepository.save(entity));
     }
@@ -62,5 +65,18 @@ public class PlanetServiceImpl implements PlanetService {
         planetRepository.deleteById(id);
 
         return true;
+    }
+
+    private PlanetEntity patchEntity(Planet planet, PlanetEntity entity) {
+        entity.setName(planet.getName());
+
+        SolarSystemEntity solarSystem = new SolarSystemEntity();
+
+        if (Objects.nonNull(planet.getSolarSystem()) && Objects.nonNull(planet.getSolarSystem().getId())) {
+            solarSystem.setId(planet.getSolarSystem().getId());
+        }
+
+        entity.setSolarSystem(solarSystem);
+        return entity;
     }
 }

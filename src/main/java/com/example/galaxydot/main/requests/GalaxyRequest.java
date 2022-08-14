@@ -1,6 +1,6 @@
 package com.example.galaxydot.main.requests;
 
-import com.example.galaxydot.main.models.BasicSolarSystem;
+import com.example.galaxydot.main.enums.GalaxyType;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -10,10 +10,10 @@ import lombok.ToString;
 @Setter
 @ToString
 @NoArgsConstructor
-public class PlanetRequest {
+public class GalaxyRequest {
 
     private String name;
 
-    private BasicSolarSystem solarSystem;
+    private GalaxyType type;
 
 }

@@ -5,20 +5,14 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
-import java.util.List;
-
 @Getter
 @Setter
 @ToString
 @Builder
-public class SolarSystem {
+public class BasicSolarSystem {
 
     private Long id;
 
     private String name;
-
-    private List<BasicPlanet> planets;
-
-    private Galaxy galaxy;
 
 }

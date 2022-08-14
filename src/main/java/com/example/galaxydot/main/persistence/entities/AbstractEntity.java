@@ -2,8 +2,6 @@ package com.example.galaxydot.main.persistence.entities;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.*;
 import java.time.Instant;
@@ -14,21 +12,19 @@ import java.time.Instant;
 public class AbstractEntity {
 
     @Id
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @CreatedDate
-    @Column(name = "created_at", nullable = false, updatable = false)
+    @Column(name = "created_at", updatable = false)
     private Instant createdAt;
 
     private String createdBy;
 
-    @LastModifiedDate
     @Column(name = "updated_at")
     private Instant updatedAt;
 
     private String updatedBy;
 
-    private Boolean deleted;
+    private boolean deleted;
 
 }
